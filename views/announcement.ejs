@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>ANNOUNCEMENTS</title>
+<link rel="stylesheet" href="css/css-announcement.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="brand-title">E-Voting WebApp</div>
+      <a href="#" class="toggle-button">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </a>
+      <div class="navbar-links">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/results">Frequent Results   </a></li>
+
+        </ul>
+      </div>
+    </nav>
+
+
+    <table   class="content-table" align="center">
+      <caption><h1>ANNOUNCEMENTS</h1></caption>
+      <thead>
+      <tr>
+        <th>DATE             </th><th>ANNOUNCEMENT                                                      </th><th>TIME                         </th>
+      </tr>
+      </thead>
+<tr>
+</tr>
+<tr>
+</tr>
+                  <%for(var i=1;i<a_page.length;i++){%>
+                    <tr>
+                      <td><%=a_page[i].date%>     </td><td><%=a_page[i].announcement%>                  </td><td><%=a_page[i].time%>                       </td>
+                    </tr>
+                  <%}%>
+
+    </table>
+  </body>
+</html>

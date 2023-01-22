@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/registration.css">
+    <title>Candidate Registration</title>
+
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="brand-title">E-Voting WepApp</div>
+      <a href="#" class="toggle-button">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </a>
+      <div class="navbar-links">
+        <ul>
+
+
+
+        </ul>
+      </div>
+
+    </nav>
+
+    <div  class="tabcontent">
+      <form  method="post">
+        <h1>Set Phases Of Election </h1>
+        <div class="container">
+          <h2>Election ID: <%=eid%></h2>
+          <div class="msg">
+            <%if(msg.length>=1){%>
+            <%=msg%>
+            <%}%>
+          </div>
+
+
+
+            <%if(mmode=='area-pos-based' || mmode=='area-based'){%>
+              <label for="c_area"><b>competing Areas/Departments</b></label><br>
+              <%for(var i=1;i<=areacount;i++){%>
+
+                <input type="text" placeholder="Enter Competing Area <%=i%>" name="c_area" required><br>
+              <%}%>
+
+
+            <%}%>
+          <%if(mmode=='area-pos-based' || mmode=='pos-only'){%>
+            <label for="p_pos"><b>Participating Position:</b></label><br>
+
+            <%for(j=1;j<=poscount;j++){%>
+              <input type="text" placeholder="Enter Participating Position <%=j%> " name="p_pos" required ><br>
+            <%}%>
+
+
+          <%}%>
+
+          <input type="hidden"  name="eid" value="<%=eid%>">
+          <input type="hidden"  name="mmode" value="<%=mmode%>">
+          <div class="butn1" style="background-color:#ffffff">
+
+            <button class="btn2" type="submit" formaction="/set_phases" class="submitbutton">Finish</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </body>
+</html>

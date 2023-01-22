@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="js/js-adminhome.js"></script>
+
+
+
+<link rel="stylesheet" href="css/css-adminhome.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="brand-title">E-Voting WebApp</div>
+    <a href="#" class="toggle-button">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </a>
+    <div class="navbar-links">
+      <ul>
+        <li><a href="/close">Logout</a></li>
+
+      </ul>
+    </div>
+  </nav>
+
+<div class="tab">
+  <button class="tablinks" id="adminhome" >Admin home</button>
+
+  <!--<button class="tablinks" id="voter_reg">Voter Reg</button>-->
+
+  <button class="tablinks" id="change_pass">Change Password</button>
+  <!--<button class="tablinks" id="add_cand">Add Canidate</button> -->
+  <button class="tablinks" id="elec_mana">Election management</button>
+  <!--<button class="tablinks" id="result">Result</button>-->
+</div>
+
+
+<div id="Election management" class="tabcontent">
+  <h3>New Election</h3>
+  <form id="newelection_form" action="/new_election" method="post">
+    <div class="container">
+      <div class="error" id="error1"></div>
+        <label for="e_ID"><b>Election ID:</b></label><br>
+      <input type="text" id="eid_ne" placeholder="Enter election id" name="e_ID" required><br>
+      <label for="e_PASS"><b>Election Password:</b></label><br>
+        <input type="password" id="epass_ne" placeholder="Election Pass" name="e_PASS" required><br>
+      <label for="e_name"><b>Election Name:</b></label><br>
+      <input type="text" id="ename_ne" placeholder="Enter election name" name="e_name" required><br>
+      <label for="e_date"><b>Election date: </b></label>
+      <input type="date" id="edate_ne" name="e_date" required><br /><br>
+      <label for="est">From time:</b></label>
+      <input type="time" id="estime_ne" name="e_start_time" required>
+      <label for="ect">To time:</b></label>
+      <input type="time" id="ectime_ne" name="e_close_time" required></br></br>
+
+
+      <label for="v_date"><b>Verification date:</b></label>
+      <input type="date" id="vdate_ne"  name="v_date" required><br /></br>
+      <label>
+
+        <label for="e_mode"><b>Election Mode:</b></label>
+        <input type="radio" class="emoderadio1" id="areab " name="e_mode" value="area-based"  required>
+        <label for="areabsd">Area-Based</label>
+        <input type="radio" class="emoderadio2" id="areapbas" name="e_mode" value="area-pos-based" required>
+        <label for="areapsbsd">Area Position-Based</label>
+        <input type="radio" class="emoderadio3" id="posonl" name="e_mode" value="pos-only" onClick="hiderea()" required>
+        <label for="posonl">Position-Based</label>
+      </label><br>
+      <input type="text" id="rreano" placeholder="Enter No: Areas To conduct Election" name="narea"  >
+      <input type="text" id="pposno" placeholder="Enter No: Positions To conduct Election" name="npos"  >
+        <div class="butn1" style="background-color:#ffffff">
+        <button id="newelectionbutton" class="btn2" type="submit" class="submitbutton">submit</button>
+      </div>
+    </div>
+  </form>
+
+  <h3>Go to Registrations</h3>
+  <form id='gotoreg_form' method="post">
+    <div class="container">
+      <div class="error" id="error4"></div>
+      <label for="e_ID"><b>Election Id:</b></label><br>
+      <input type="text" id='eid_gtr' placeholder="Enter election id" name="e_ID" required><br>
+      <label for="e_PASS"><b>Election Pass:</b></label><br>
+      <input type="password" id='epass_gtr' placeholder="Election Pass" name="e_PASS" required><br>
+      <input type="radio"  id="regcandi " name="regtype" value="candidate"  required>
+      <label for="regcandi">Candidate Registration</label>
+      <input type="radio"  id="regvotee" name="regtype" value="voter" required>
+      <label for="areapsbsd">Voter Registration</label>
+
+
+        <div class="butn1" style="background-color:#ffffff">
+          <button class="btn2" type="submit" formaction="/Registrations" class="enablebutton">Go</button>
+
+        </div>
+    </div>
+  </form>
+
+
+  <h3>Update Verification Date</h3>
+    <form action="/update_verification_date" method="post">
+      <div class="container">
+          <label for="e_ID"><b>Election ID:</b></label><br>
+          <input type="text" placeholder="Enter election id" name="e_ID" required><br>
+          <label for="e_PASS"><b>Election Pass:</b></label><br>
+        <input type="password" placeholder="Election Password" name="e_PASS" required><br>
+          <label for="v_date"><b>Verification date:</b></label><br><br>
+          <input type="date"  name="v_date" required><br>
+
+
+
+          <div class="butn1" style="background-color:#ffffff">
+          <button class="btn2" type="submit" class="updatebutton">update</button>
+          </div>
+      </div>
+    </form>
+
+
+  <h3>Update Election Date</h3>
+    <form action="/update_election_date" method="post">
+      <div class="container">
+        <label for="e_ID"><b>Election id:</b></label><br>
+        <input type="text" placeholder="Enter election id" name="e_ID" required><br>
+        <label for="e_PASS"><b>Election Pass:</b></label><br>
+        <input type="password" placeholder="Election Pass" name="e_PASS" required><br>
+        <label for="e_date"><b>Election date:</b></label><br><br>
+        <input type="date"  name="e_date" required></br></br>
+        <label for="estime">From time:</b></label>
+        <input type="time" id="appt" name="estime">
+        <label for="ectime">To time:</b></label>
+        <input type="time" id="appt" name="ectime"></br></br>
+            <div class="butn1" style="background-color:#ffffff">
+              <button class="btn2" type="submit" class="Updatebutton">Update</button>
+            </div>
+      </div>
+    </form>
+  <h3>Enable/Disable Election</h3>
+    <form id='enabledisable_form' method="post">
+      <div class="container">
+        <div class="error" id="error5"></div>
+        <label for="e_ID"><b>Election Id:</b></label><br>
+        <input type="text" id='eid_edsb' placeholder="Enter election id" name="e_ID" required><br>
+        <label for="e_PASS"><b>Election Pass:</b></label><br>
+        <input type="password" id='epass_edsb' placeholder="Election Pass" name="e_PASS" required><br>
+
+        <label for="enc_pass"><b>Encryption Pass:</b></label><br>
+        <input type="password" id='ecpass_edsb' placeholder="Encryption Pass:" name="enc_pass" required><br>
+          <div class="butn1" style="background-color:#ffffff">
+            <button class="btn2" type="submit" formaction="/enable_election" class="enablebutton">Enable</button>
+            <button class="btn2" type="submit" formaction="/disable_election" class="disablebutton">Disable</button>
+          </div>
+      </div>
+    </form>
+</div>
+
+<div id="Change Password" class="tabcontent">
+  <h3>Change Password</h3>
+  <form id='change_pass_form' action="/change_password" method="post">
+    <div class="container">
+      <div class="error" id="error3"></div>
+      <label for="adminid"><b>Admin ID:</b></label><br>
+      <input type="password" id='admid_cpf' placeholder="Enter Admin ID" name="adID" required><br>
+      <label for="cpass"><b>current Password:</b></label><br>
+      <input type="password" id='crpass_cpf' placeholder="Enter current password" name="cpass" required><br>
+
+      <label for="npass"><b>New Password:</b></label><br>
+      <input type="password" id='npass_cpf' placeholder="Enter new Password" name="npass" required><br>
+      <label for="cfmpass"><b>confirm Password:</b></label><br>
+      <input type="password" id='cnpass_cpf' placeholder="Re-Enter Password" name="cfmpass" required><br>
+
+      <div class="butn1" style="background-color:#ffffff">
+        <button class="btn2" type="submit" class="submitbutton">submit</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+<div id="Result" class="tabcontent">
+  <form id='obtain_result_form' action="/obtain_result" method="post">
+
+    <div  class="container">
+      <div class="error" id="error2"></div>
+      <label for="e_ID"><b>Election id:</b></label><br>
+      <input type="text" id='eid_or' placeholder="Election id" name="e_ID" required><br>
+
+      <label for="e_PASS"><b>Election Password:</b></label><br>
+      <input type="password" id='epass_or' placeholder="Enter Election Password" name="e_PASS" required><br>
+      <label for="enc_pass"><b>Encryption Password:</b></label><br>
+      <input type="password" id='ecrpass_or' placeholder="Enter Encryption Password" name="enc_pass" required><br>
+
+      <div class="butn1" style="background-color:#ffffff">
+
+        <button class="btn2" type="submit" class="encryptbutton">Get Result</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+
+
+</body>
+</html>

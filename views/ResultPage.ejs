@@ -1,0 +1,45 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Frequent Results</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/css-resultpage.css">
+
+</head>
+<body>
+  <nav class="navbar">
+    <div class="brand-title">E-Voting WebApp</div>
+    <a href="#" class="toggle-button">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </a>
+    <div class="navbar-links">
+      <ul>
+        <li><a href="/">Home</a></li>
+          <li><a href="/announcements">Announcements</a></li>
+
+      </ul>
+    </div>
+  </nav>
+
+
+
+
+<h1 style="text-align: center;">Frequent Results</h1>
+    <%var i=0;%>
+    <%for(i=1;i<r_page.length;i++) {%>
+    <div class="container">
+      <%-r_page[i].rhtml%>
+    </div>
+    <%}%>
+
+
+
+
+
+
+</body>
+</html>

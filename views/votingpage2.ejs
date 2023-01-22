@@ -1,0 +1,33 @@
+<h1>cast your vote</h1>
+<h1> <%=user_info[1].ename %> </h1>
+
+
+
+    <h3>voter id: <%=user_info[1].vvid%></h3>
+    <h3>voter area: <%=user_info[1].vrea%>
+  
+    <h2>VOTING CONSTITUENCY : <%= user_info[1].vrea %></h2>
+    <form action='/cast_vote_area-pos' method="post">
+      <%var k=1;%>
+        <%var cndno=1;%>
+
+
+      <%var position=candidate_sc[1].c_pos;%>
+      <h3>COMPETING POSITION : <%=position%></h3>
+       <% for(var i=1;i<candidate_sc.length;i++){%>
+              <%if(position!=candidate_sc[i].c_pos){%>
+                <%position=candidate_sc[i].c_pos%>
+                <%k=k+1;%>
+                <h3>COMPETING POSITION : <%=position%></h3>
+              <%}%>
+
+              <%cndno=cndno+1;%>
+          <label for="<% candidate_sc[i].cnme %>"><h2><%= candidate_sc[i].cnme %>   [<%= candidate_sc[i].prep %>] </h2></label>
+          <input type="radio" name="position<%=k%>" id="<%=cndno%>"value="<%= candidate_sc[i].cnme %>" >
+          <%=k%>
+        <%}%><br></br>
+    <input type="hidden"  name="voter" value="<%=user_info[1].vvid%>">
+    <input type="hidden" name="election" value="<%=user_info[1].veid%>">
+    <input type="hidden" name="k" value="<%=k%>">
+    <button type="submit" class="submitbutton">cast vote</button>
+    </form>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Caste Your Vote</title>
+    <link rel="stylesheet" href="css/css-votingpage.css">
+  </head>
+  <body>
+<h1 style="text-align: center;" class="maintitle">Cast Your Vote!</h1>
+
+<h1> <%=user_info[1].ename %> </h1>
+
+<h2>VOTER ID: <%=user_info[1].vvid%></h2>
+    <div class="container">
+
+      <%if(user_info[1].vrea!='NA'){%>
+          <h2> <%=user_info[1].vrea%> </h2>
+      <%}%>
+
+
+        <form action='/cast_vote' method="post">
+
+            <%var k=1;%>
+            <%var cndno=1;%>
+
+
+          <%var position=candidate_sc[1].c_pos;%>
+
+            <h2 class="positions">COMPETING POSITION : <%=position%></h2><br>
+
+           <% for(var i=1;i<candidate_sc.length;i++){%>
+                  <%if(position!=candidate_sc[i].c_pos){%>
+                    <%position=candidate_sc[i].c_pos%>
+                    <%k=k+1;%>
+
+                      <br>
+                      <h2 class="positions">COMPETING POSITION : <%=position%></h2><br>
+
+                  <%}%>
+
+                  <%cndno=cndno+1;%>
+
+                      <div class="candidates">
+                        <h2>
+                          <label for="<%= candidate_sc[i].cnme %>"><%= candidate_sc[i].cnme %>   [<%= candidate_sc[i].prep %>] </label><br>
+                          <input type="radio" name="position<%=k%>" id="<%= candidate_sc[i].cnme %>" value="<%= candidate_sc[i].cnme %>" >
+                        </h2>
+
+                      </div>
+
+
+
+
+            <%}%><br></br>
+
+                <input type="hidden"  name="voter" value="<%=user_info[1].vvid%>">
+                <input type="hidden" name="election" value="<%=user_info[1].veid%>">
+                <input type="hidden" name="k" value="<%=k%>">
+
+
+      <div class="butn1" >
+        <button class="btn2" type="submit">Cast Vote </button>
+      </div>
+</form>
+
+    </div>
+  </body>
+</html>

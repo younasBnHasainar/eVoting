@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+        <title>Candidate Registration</title>
+    <link rel="stylesheet" href="css/registration.css">
+
+    <title>Candidate Registration</title>
+
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="brand-title">E-Voting WepApp</div>
+      <a href="#" class="toggle-button">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </a>
+      <div class="navbar-links">
+        <ul>
+          <li><a href="/home">Home <br></a></li>
+
+
+        </ul>
+      </div>
+
+    </nav>
+
+    <div id="Add Canidate" class="tabcontent">
+      <form  method="post">
+
+        <div class="container">
+          <h1>Candidate Registration</h1>
+          <h2><%=eid%></h2>
+          <div class="msg">
+            <%-msg%>
+
+          </div>
+
+            <label for="cid"><b>Canidate ID:</b></label><br>
+            <input type="text" placeholder="ID" name="cid" required><br>
+          <label for="cname"><b>Canidate Name:</b></label><br>
+          <input type="text" placeholder="Enter Candidate Name" name="cname" required><br>
+          <label for="p_rep"><b>Political Repersentation:</b></label><br>
+          <input type="text" placeholder="Political Repersentation" name="p_rep" required><br>
+          <%if(mmode=='area-pos-based' || mmode=='pos-only'){%>
+            <label for="p_pos"><b>Participating Position:</b></label><br>
+
+              <select id="posnames" name="ccpposs" required>
+
+                <%for(var i=1;i<regposs.length;i++){%>
+                 <option value="<%=regposs[i]%>" ><%=regposs[i]%></option>
+                 <%}%>
+
+              </select><br>
+
+
+          <%}%>
+          <%if(mmode=='area-pos-based' || mmode=='area-based'){%>
+          <label for="c_area"><b>competing Area/Department</b></label><br>
+          <select id="areanames" name="ccarrea" required>
+            <%for(var i=1;i<regareas.length;i++){%>
+             <option value="<%=regareas[i]%>" ><%=regareas[i]%></option>
+             <%}%>
+          </select>
+          <%}%>
+          <input type="hidden"  name="eid" value="<%=eid%>">
+          <input type="hidden"  name="mmode" value="<%=mmode%>">
+          <input type="hidden"  name="regareas" value="<%=regareas%>">
+          <input type="hidden"  name="regposs" value="<%=regposs%>">
+          <div class="butn1" style="background-color:#ffffff">
+          <br>
+            <button class="btn2" type="submit" formaction="/add_candidate" class="submitbutton">Add</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </body>
+</html>

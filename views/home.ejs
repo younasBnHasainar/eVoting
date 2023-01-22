@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script type="text/javascript" src="js/home.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="background_styles.css">
+
+    <title>main</title>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="brand-title">E-Voting WebApp</div>
+      <a href="#" class="toggle-button">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </a>
+      <div class="navbar-links">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/results">Frequent Results</a></li>
+          <li><a href="/announcements">Announcements</a></li>
+        </ul>
+      </div>
+    </nav>
+
+
+
+
+
+
+
+  <header>
+    <div class="slidershow middle">
+
+      <div class="slides">
+        <input type="radio" name="r" id="r1" checked>
+        <input type="radio" name="r" id="r2">
+        <input type="radio" name="r" id="r3">
+        <input type="radio" name="r" id="r4">
+        <input type="radio" name="r" id="r5">
+        <div class="slide s1">
+          <img src="1.jpg" alt="">
+        </div>
+        <div class="slide">
+          <img src="2.jpg" alt="">
+        </div>
+        <div class="slide">
+          <img src="3.jpg" alt="">
+        </div>
+        <div class="slide">
+          <img src="4.jpg" alt="">
+        </div>
+        <div class="slide">
+          <img src="5.jpg" alt="">
+        </div>
+      </div>
+
+      <div class="navigation">
+        <label for="r1" class="bar"></label>
+        <label for="r2" class="bar"></label>
+        <label for="r3" class="bar"></label>
+        <label for="r4" class="bar"></label>
+        <label for="r5" class="bar"></label>
+      </div>
+    </div>
+  </header>
+
+
+<br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <!-- Page Content -->
+  <section class="py-5">
+    <div class="container">
+
+
+    </div>
+  </section>
+  <div class="container">
+       <form id='voter_login' action="/voterlogin" method="POST">
+           <div class="row">
+
+
+
+               <div class="col">
+
+                   <div class="hide-md-lg">
+                       <center>
+                           <h4>Login</h4>
+                       </center>
+                   </div>
+                   <div class="msg">
+                     <%=msg2[0].msg%>
+                   </div>
+                   <div class="error" id="error1"></div>
+                   <select id="enames" name="ename" required>
+                     <%for(var i=1;i<up_elections.length;i++){%>
+                      <option value="<%=up_elections[i].ename%>" ><%=up_elections[i].ename%></option>
+                      <%}%>
+                      </select>
+                   <input type="text" id='vl_id' name="check_ID" placeholder="Aadhar ID" required>
+                   <input type="password" id='vl_pass' name="check_PASS" placeholder="Password" required>
+                   <center>
+                   <input type="submit" value="Login">
+                 </center>
+               </div>
+
+
+               <div class="col">
+                   <div class="hide-md-lg">
+                       <center>
+                       </form>
+                         <form id='voter_verification' action="/voterverification" method="POST">
+                           <h4>Verify Your ID</h4>
+
+                       </center>
+                   </div>
+                   <div class="msg">
+                     <%=msg[0].msg%>
+                   </div>
+                   <div class="error" id="error2"></div>
+                   <select id="enames" name="ename" required>
+                     <%for(var i=1;i<up_elections.length;i++){%>
+                      <option value="<%=up_elections[i].ename%>" ><%=up_elections[i].ename%></option>
+                      <%}%>
+                      </select>
+                      <input type="text" id='vf_id' name="verify_id" placeholder="Aadhar ID" required>
+
+
+                   <center>
+                   <input type="submit" value="Submit">
+                 </center>
+               </div>
+
+           </div>
+       </form>
+   </div>
+
+
+  </body>
+</html>

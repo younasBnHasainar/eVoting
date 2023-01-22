@@ -1,0 +1,212 @@
+var sqlite3 = require('sqlite3').verbose();
+var express = require('express');
+var http = require('http');
+var path = require("path");
+var bodyParser = require('body-parser');
+var helmet = require('helmet');
+var rateLimit = require("express-rate-limit");
+var generator = require('generate-password');
+var app = express();
+var server = http.createServer(app);
+var async = require("async");
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
+
+var db = new sqlite3.Database('./database/eVoting.db', sqlite3.OPEN_READWRITE, (err) => {
+  if (err) {
+    console.error(err.message);
+  }
+  console.log('Connected to the evoting  database.');
+});
+
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname,'./public')));
+app.use(helmet());
+app.use(limiter);
+
+
+app.get('/', function(req,res){
+  res.sendFile(path.join(__dirname,'./public/slider.html'));
+});
+
+// Login
+app.post('/voterlogin', function(req,res){
+  db.serialize(()=>{
+    db.get('SELECT COUNT(*) as countf,v_ID VID   FROM voter_slist  WHERE v_ID =? and password=?', [req.body.check_ID, req.body.check_PASS], function(err,row){     //db.each() is only one which is funtioning while reading data from the DB
+		const exist =  row.countf;
+ 		if(exist ==1) {
+ 			     res.send("logged in successfully");
+      			console.log("logged successfully");
+      								}
+      else if (exist !=1) {
+      		res.send("incorrect credentials");
+        		console.log("incorrect credentials");
+        		}
+      else if (err) {
+  				res.send("error");
+        return console.error(err.message);    
+      	}
+      else {
+      	res.send("unexpected result");
+        return console.error(err.message);  
+      	}
+      	//if(err){res.send("incorrect credentials");}
+      	//res.send(exist);
+      	//res.send(` ID: ${row.countf}`);
+      	//console.log("Entry displayed successfully");
+    		//console.log(exist);
+      	
+    });
+  });
+});
+
+
+
+
+//verification
+app.post('/voterverification', function(req,res){
+  var existf=0;
+  
+     async.series([
+		function verifywithdb(callback) {
+			console.log("log :function verifywithdb(callback)");
+    		db.get('SELECT COUNT(*) as counts  FROM voter_slist  WHERE v_ID =?' , [req.body.verify_id], function(err,row){     //db.each() is only one which is funtioning while reading data from the DB
+      
+     				if(err){
+        				res.send("error in verification process");
+        				 callback(err);
+        				return console.error(err.message);
+        
+     					}
+     				existf =  row.counts;
+     				
+       			console.log("verification process started,: whether ID present status : "+existf);
+             	if(existf ==0){
+        			res.send("Voter has not registered");
+       			console.log("not a registered user");
+       			return callback(new Error('async error says not registered'));
+      			}
+      			else if (existf ==1) {
+      			//res.send("Voter has  registered");
+      			console.log("found to be registered user");
+					callback();
+      			}
+      
+      			else {
+      			res.send("unexpected result");
+         		console.log("unexpected result in verification");  
+         		callback(new Error('un expected chance'));
+      				}
+       //console.log("going outside verifywithdb");
+     	 });
+	 },     
+     
+      function whetherverifiedfn(callback) {
+      	console.log("log :whetherverifiedfn(callback)");
+      	
+			//checking whether already verified while enabled
+			
+			    		db.get('SELECT verification_status as whether_enabled   FROM voter_slist  WHERE v_ID =? ' , [req.body.verify_id], function(err,row){     //db.each() is only one which is funtioning while reading data from the DB
+      
+     				if(err){
+        				res.send("error while checking whether already verified");
+        				 callback(err);
+        				return console.error(err.message);
+        
+     					}
+     					if (row.whether_enabled=='disabled') {
+     						res.send("election has not enable yet try in between this date and this date");
+     						console.log("verification has not enabled yet");
+     						callback(new Error('verification has not enabled yet'));
+     						
+     						}
+     					else if(row.whether_enabled=='verified'){
+     					res.send("already verified please check your mail box ");
+      							console.log("VOTER ALREADY VERIFIED");
+									 callback(new Error('async error says already verified'));
+     						}
+      					else if (row.whether_enabled!='verified' && row.whether_enabled!='disabled' && row.whether_enabled!='enabled') {
+      							res.send("unexpected error , please try after sometime");
+         						console.log("unexpected result in whether verified");  
+         						callback(new Error('un expected chance'));
+      							}
+      				 else if (row.whether_enabled=='enabled' ) {
+      				 	console.log("found as enabled and not verified");
+									 callback();
+									 }
+
+		     	 	});
+		 },
+     	 function generatingandupdating(callback) {
+     	 	console.log("log :generatingandupdating(callback)");
+     	 	//generarting password for logginedvoter 
+      	var gpassword = generator.generate({
+			length: 12, // defaults to 10
+			numbers: true, // defaults to false
+			symbols: '!@#$%&*', // defaults to false
+			uppercase: true, // defaults to true
+			strict: true // defaults to false
+			});//ends generation .password is in variable password
+			console.log(gpassword);
+      		//updating voterlist with generated password
+      		
+			//need to check whether password is already generated,for security reason,if not a man can obtain possible password
+			db.run('UPDATE voter_slist SET password=?, verification_status="verified" WHERE v_ID = ? AND verification_status="enabled"', [gpassword,req.body.verify_id], function(err){
+      		if(err){
+        				res.send("FAILED TO OBTAIN PASSWORD");
+        				console.log("password not updated to database. tryout after sometime");
+        				callback(err);
+        				return console.error(err.message);
+      				}
+    
+      				res.send("password gonna send to your mail");
+      				console.log("password updated successfully");
+      				callback();
+   	 		});
+   	 	
+   	 		 
+      	}
+      	/*function generateAndMail(callback) {	
+      		
+      	}	*/
+     ], function(err) {
+    if (err) {
+        //Handle the error in some way. Here we simply throw it
+        //Other options: pass it on to an outer callback, log it etc.
+        console.log(" async disturbed in between");
+    }
+    console.log('async for verification page worked ');
+});
+      
+ 
+
+  });
+
+
+
+
+
+
+
+app.get('/close', function(req,res){
+  db.close((err) => {
+    if (err) {
+      res.send('There is some error in closing the database');
+      return console.error(err.message);
+    }
+    console.log('Closing the database connection.');
+    res.send('Database connection successfully closed');
+  });
+  
+});
+
+
+
+server.listen(4000,function(){ 
+    console.log("Server listening on port: 4000");
+ });
+    

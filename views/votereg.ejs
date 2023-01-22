@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Voter Registration</title>
+<link rel="stylesheet" href="css/registration.css">
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="brand-title">E-Voting WepApp</div>
+      <a href="#" class="toggle-button">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </a>
+      <div class="navbar-links">
+        <ul>
+          <li><a href="/home">Home <br></a></li>
+
+
+        </ul>
+      </div>
+
+    </nav>
+
+    <div id="Voter Reg" class="tabcontent">
+
+      <form  method="post">
+
+        <div class="container">
+          <h1>Voter Registration</h1>
+          <h2><%=eid%></h2>
+          <div class="msg">
+            <%-msg%>
+
+          </div>
+<br>
+            <label for="vid"><b>Aadhar id:  </b></label><br>
+            <input type="text" placeholder="Enter Voter ID" name="vid" required>
+<br>
+          <label for="vname"><b>Name:       </b></label><br>
+          <input type="text" placeholder="Enter Name Of Voter" name="vname" required>
+<br>
+
+          <label for="dob"><b>DOB:        </b></label><br>
+          <input type="date"  name="dob" required><br>
+<br>
+          <label for="vmail"><b>Email id:    </b></label><br>
+          <input type="text" placeholder="Emter Email Address" name="vmail" required>
+
+<br>
+          <%if(mmode=='area-pos-based' || mmode=='area-based'){%>
+          <label for="areanames"><b>Residing Area/Department</b></label><br>
+          <select id="areanames" name="ccarrea" required>
+            <%for(var i=1;i<regareas.length;i++){%>
+             <option value="<%=regareas[i]%>" ><%=regareas[i]%></option>
+             <%}%>
+          </select>
+          <%}%>
+
+          <input type="hidden"  name="eid" value="<%=eid%>">
+          <input type="hidden"  name="mmode" value="<%=mmode%>">
+          <input type="hidden"  name="regareas" value="<%=regareas%>">
+
+          <div class="butn1" style="background-color:#ffffff">
+
+            <button class="btn2" type="submit" formaction="/register_voter" class="submitbutton">Add</button>
+          </div>
+        </div>
+      </form>
+
+
+    </div>
+
+  </body>
+</html>
